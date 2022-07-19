@@ -1,3 +1,4 @@
+//Zustand Ref https://github.com/hiteshchoudhary/Zustand-crash-course/blob/main/src/components/CourseList.jsx
 import styled from '@emotion/styled';
 import {
   AppBar,
@@ -10,11 +11,15 @@ import {
 } from '@mui/material';
 import React from 'react';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import useUserStore from '../store/userStore';
 function Navbar() {
   const StyledToolBar = styled(Toolbar)({
     display: 'flex',
     justifyContent: 'space-between',
   });
+  const { telegramId } = useUserStore((state) => ({
+    telegramId: state.user.telegramId,
+  }));
   return (
     <Box>
       <AppBar position='static'>
@@ -27,9 +32,15 @@ function Navbar() {
           </Typography>
           <CreditScoreIcon sx={{ display: { xs: 'block', sm: 'none' } }} />
           {/* This should be first letter of the user */}
-          <IconButton>
-            <Avatar>V</Avatar>
-          </IconButton>
+          {telegramId ? (
+            <>
+              <IconButton>
+                <Avatar>V</Avatar>
+              </IconButton>
+            </>
+          ) : (
+            <>Not logged in</>
+          )}
         </StyledToolBar>
       </AppBar>
     </Box>

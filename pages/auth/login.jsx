@@ -20,17 +20,24 @@ function Login() {
   const setTelegramId = useUserStore((state) => state.setTelegramId);
   const setTeleUserName = useUserStore((state) => state.setUserName);
   const setEmailAddr = useUserStore((state) => state.setEmailAddr);
+
   const [userName, setUsername] = useState('');
   const [error, setError] = useState({ err: false, message: '' });
+  const [showEmailOption, setShowEmailOption] = useState(false);
+  const [email, setEmail] = useState('');
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:8000/login', {
+
+    const res = await axios.post(`${process.env.API}/login`, {
       uname: userName,
     });
     if (res.data.status_code === 401) {
       setError({ err: true, message: 'Invalid Credentials' });
     }
     if (res.data.status_code === 200) {
+      if (!res.data.user.email) {
+        setShowEmailOption(true);
+      }
       setError({ err: false, message: '' });
       setTelegramId(res.data.user.tid);
       setTeleUserName(res.data.user.uname);
@@ -71,6 +78,25 @@ function Login() {
               value={userName}
               onChange={(e) => setUsername(e.target.value)}
             ></TextField>
+            {showEmailOption ? (
+              <>
+                {' '}
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  id='email'
+                  label='Email'
+                  name='Email'
+                  autoFocus
+                  value={email}
+                  placeholder='Please update your email'
+                  onChange={(e) => setEmail(e.target.value)}
+                ></TextField>
+              </>
+            ) : (
+              <></>
+            )}
             <Button
               type='submit'
               fullWidth

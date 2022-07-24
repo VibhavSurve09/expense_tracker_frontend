@@ -14,13 +14,16 @@ import React, { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import useUserStore from '../../store/userStore';
 import axios from 'axios';
+import { setCookie } from 'cookies-next';
+import { FORBIDDEN, Ok, INVALID_CRED } from '../../statusCode';
 import { Container } from '@mui/system';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useRouter } from 'next/router';
 function Login() {
   const setTelegramId = useUserStore((state) => state.setTelegramId);
   const setTeleUserName = useUserStore((state) => state.setUserName);
   const setEmailAddr = useUserStore((state) => state.setEmailAddr);
-
+  const router = useRouter();
   const [userName, setUsername] = useState('');
   const [error, setError] = useState({ err: false, message: '' });
   const [showEmailOption, setShowEmailOption] = useState(false);
@@ -28,21 +31,48 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await axios.post(`${process.env.API}/login`, {
-      uname: userName,
-    });
-    if (res.data.status_code === 401) {
+    const res = await axios.post(
+      `${process.env.API}/login`,
+      {
+        uname: userName,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    if (res.data.status_code === INVALID_CRED) {
       setError({ err: true, message: 'Invalid Credentials' });
     }
-    if (res.data.status_code === 200) {
+    if (res.data.status_code === Ok) {
       if (!res.data.user.email) {
         setShowEmailOption(true);
+        return;
       }
+      router.push('/');
+      setCookie('et_tid', res.data.tid);
       setError({ err: false, message: '' });
-      setTelegramId(res.data.user.tid);
-      setTeleUserName(res.data.user.uname);
-      setUsername('');
     }
+  };
+
+  const handleLoginWithUpdateEmail = async (e) => {
+    e.preventDefault();
+    const res = await axios.post(
+      `${process.env.API}/update/email`,
+      {
+        email: email,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    if (res.status() == FORBIDDEN) {
+      return;
+    }
+    //Set Credentials in local storage
+    setTelegramId(res.data.user.tid);
+    setTeleUserName(res.data.user.uname);
+    setEmailAddr(res.data.user.email);
+    router.push('/');
   };
   return (
     <Box>
@@ -93,19 +123,36 @@ function Login() {
                   placeholder='Please update your email'
                   onChange={(e) => setEmail(e.target.value)}
                 ></TextField>
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleLoginWithUpdateEmail}
+                >
+                  Log In
+                </Button>
               </>
             ) : (
               <></>
             )}
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleLogin}
-            >
-              Log In
-            </Button>
+            {!showEmailOption ? (
+              <>
+                {' '}
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleLogin}
+                >
+                  Log In
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+
             <Grid container>
               <Grid item xs>
                 <Link>{"Don't have a account? Sign Up"}</Link>

@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <Box>
       <Navbar />
-      Landing Page
+      Main page
     </Box>
   );
 }

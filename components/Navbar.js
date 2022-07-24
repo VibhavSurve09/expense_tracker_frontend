@@ -12,7 +12,9 @@ import {
 import React from 'react';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import useUserStore from '../store/userStore';
+import MenuIcon from '@mui/icons-material/Menu';
 import Head from 'next/head';
+import LeftDrawer from './Drawer/LeftDrawer';
 function Navbar() {
   const StyledToolBar = styled(Toolbar)({
     display: 'flex',
@@ -31,17 +33,21 @@ function Navbar() {
       </Head>
       <AppBar position='static'>
         <StyledToolBar>
+          <LeftDrawer>
+            <IconButton color='inherit'>
+              <MenuIcon />
+            </IconButton>
+          </LeftDrawer>
           <Typography
             variant='h6'
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}
           >
             Expense Tracker
           </Typography>
-          <CreditScoreIcon sx={{ display: { xs: 'block', sm: 'none' } }} />
           {/* This should be first letter of the user */}
           {telegramId ? (
             <>
-              <IconButton>
+              <IconButton color='inherit'>
                 <Avatar> {userName[0]}</Avatar>
               </IconButton>
             </>

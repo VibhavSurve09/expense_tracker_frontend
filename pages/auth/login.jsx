@@ -50,6 +50,10 @@ function Login() {
       }
       router.push('/');
       setCookie('et_tid', res.data.tid);
+      //Set Credentials in local storage
+      setTelegramId(res.data.user.tid);
+      setTeleUserName(res.data.user.uname);
+      setEmailAddr(res.data.user.email);
       setError({ err: false, message: '' });
     }
   };
@@ -69,8 +73,6 @@ function Login() {
       return;
     }
     //Set Credentials in local storage
-    setTelegramId(res.data.user.tid);
-    setTeleUserName(res.data.user.uname);
     setEmailAddr(res.data.user.email);
     router.push('/');
   };

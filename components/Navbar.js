@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import useUserStore from '../store/userStore';
+import Head from 'next/head';
 function Navbar() {
   const StyledToolBar = styled(Toolbar)({
     display: 'flex',
@@ -20,8 +21,14 @@ function Navbar() {
   const { telegramId } = useUserStore((state) => ({
     telegramId: state.user.telegramId,
   }));
+  const { userName } = useUserStore((state) => ({
+    userName: state.user.userName,
+  }));
   return (
     <Box>
+      <Head>
+        <title>Expense Tracker</title>
+      </Head>
       <AppBar position='static'>
         <StyledToolBar>
           <Typography
@@ -35,11 +42,11 @@ function Navbar() {
           {telegramId ? (
             <>
               <IconButton>
-                <Avatar>V</Avatar>
+                <Avatar> {userName[0]}</Avatar>
               </IconButton>
             </>
           ) : (
-            <>Not logged in</>
+            <></>
           )}
         </StyledToolBar>
       </AppBar>

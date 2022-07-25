@@ -15,6 +15,7 @@ import useUserStore from '../store/userStore';
 import MenuIcon from '@mui/icons-material/Menu';
 import Head from 'next/head';
 import LeftDrawer from './Drawer/LeftDrawer';
+import Link from 'next/link';
 function Navbar() {
   const StyledToolBar = styled(Toolbar)({
     display: 'flex',
@@ -38,12 +39,18 @@ function Navbar() {
               <MenuIcon />
             </IconButton>
           </LeftDrawer>
-          <Typography
-            variant='h6'
-            sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}
-          >
-            Expense Tracker
-          </Typography>
+          <Link href={'/'}>
+            <Typography
+              variant='h6'
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+                flexGrow: 1,
+                cursor: 'pointer',
+              }}
+            >
+              Expense Tracker
+            </Typography>
+          </Link>
           {/* This should be first letter of the user */}
           {telegramId ? (
             <>

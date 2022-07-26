@@ -1,21 +1,26 @@
 import { Box, Button } from '@mui/material';
 import { Container } from '@mui/system';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import CreditItem from '../../components/Credit/CreditItem';
 import Navbar from '../../components/Navbar';
-function Credit() {
+function CreditPage() {
+  const router = useRouter();
+  const { pageNum } = router.query;
   const [credit, setCredit] = useState([]);
+
   useEffect(() => {
     const getCredit = async () => {
-      const response = await axios.get(`${process.env.API}/credit/1`, {
+      const response = await axios.get(`${process.env.API}/credit/${pageNum}`, {
         withCredentials: true,
       });
 
       setCredit(response.data.data);
     };
-    getCredit();
-  }, []);
+    if (pageNum) getCredit();
+  }, [pageNum]);
+
   return (
     <Box>
       <Navbar />
@@ -43,4 +48,4 @@ function Credit() {
   );
 }
 
-export default Credit;
+export default CreditPage;

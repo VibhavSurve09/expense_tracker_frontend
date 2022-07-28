@@ -8,17 +8,33 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Container } from '@mui/system';
 import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useUserStore from '../../store/userStore';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
-function CreditItem({ amount, reason, date, id }) {
+import userCreditStore from '../../store/usecreditFavStore';
+
+function CreditItem({ amount, reason, date, id, inFav }) {
   const { userName } = useUserStore((state) => ({
     userName: state.user.userName,
   }));
+
+  const addCreditToFav = userCreditStore((state) => state.addCredit);
+  const removeCreditToFav = userCreditStore((state) => state.removeCredit);
+  const deleteFromFav = () => {
+    removeCreditToFav(id);
+  };
+  const addToFav = () => {
+    let cred = {
+      amount,
+      reason,
+      date,
+      id,
+    };
+    addCreditToFav(cred);
+  };
   return (
     <Box>
       <Card>
@@ -38,12 +54,20 @@ function CreditItem({ amount, reason, date, id }) {
           }
         />
         <CardActions>
-          <IconButton>
-            <TurnedInIcon />
-          </IconButton>
-          <IconButton>
-            <TurnedInNotIcon />
-          </IconButton>
+          {inFav ? (
+            <>
+              {' '}
+              <IconButton color='inherit' onClick={deleteFromFav}>
+                <TurnedInIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <IconButton color='inherit' onClick={addToFav}>
+                <TurnedInNotIcon />
+              </IconButton>
+            </>
+          )}
         </CardActions>
       </Card>
     </Box>

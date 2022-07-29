@@ -36,8 +36,8 @@ function CreditPage() {
               {/* In map first we  get the object second we get an index that starts from 0  */}
               {credit.map((c, indx) => {
                 //! Expensive operation
-                let find =
-                  favCredits.filter((cred) => cred.id == c.id).length > 0;
+                // let find =
+                //   favCredits.filter((cred) => cred.id == c.id).length > 0;
                 return (
                   <Grid item md={4} xs={12} lg={6} key={indx}>
                     <CreditItem
@@ -45,7 +45,7 @@ function CreditPage() {
                       reason={c.reason}
                       date={c.transaction_date}
                       id={c.id}
-                      inFav={find}
+                      inFav={false}
                     />
                   </Grid>
                 );

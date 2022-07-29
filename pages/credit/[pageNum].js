@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Skeleton } from '@mui/material';
+import { Box, Button, Grid, Pagination, Skeleton } from '@mui/material';
 import { Container } from '@mui/system';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -9,6 +9,7 @@ import userCreditStore from '../../store/usecreditFavStore';
 function CreditPage() {
   const router = useRouter();
   const { pageNum } = router.query;
+  const pageNumInt = parseInt(pageNum);
   const [credit, setCredit] = useState([]);
   const { favCredits } = userCreditStore((state) => ({
     favCredits: state.favCredits,
@@ -55,6 +56,12 @@ function CreditPage() {
             <> Skeleton</>
           )}
         </Grid>
+        <Pagination
+          count={20}
+          defaultPage={pageNumInt}
+          variant='outlined'
+          color='primary'
+        />
       </Container>
     </Box>
   );

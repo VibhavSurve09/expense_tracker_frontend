@@ -1,9 +1,11 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Pagination } from '@mui/material';
 import { Container } from '@mui/system';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import LineChart from '../../components/Charts/LineChart';
 import CreditItem from '../../components/Credit/CreditItem';
 import Navbar from '../../components/Navbar';
+
 function Credit() {
   const [credit, setCredit] = useState([]);
   useEffect(() => {
@@ -16,6 +18,7 @@ function Credit() {
     };
     getCredit();
   }, []);
+
   return (
     <Box>
       <Navbar />
@@ -23,6 +26,7 @@ function Credit() {
       <Container>
         {credit.length > 0 ? (
           <>
+            <LineChart _chartdata={credit} />
             {/* In map first we  get the object second we get an index that starts from 0  */}
             {credit.map((c, indx) => {
               return (
@@ -38,6 +42,13 @@ function Credit() {
         ) : (
           <>Skeleton</>
         )}
+
+        <Pagination
+          count={20}
+          defaultPage={1}
+          variant='outlined'
+          color='primary'
+        />
       </Container>
     </Box>
   );

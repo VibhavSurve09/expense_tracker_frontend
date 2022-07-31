@@ -24,7 +24,10 @@ function CreditPage() {
     };
     if (pageNum) getCredit();
   }, [pageNum]);
-
+  const change_page = (event, page) => {
+    const next_page = '/credit';
+    router.push(`${next_page}/${page}`);
+  };
   return (
     <Box>
       <Navbar />
@@ -56,12 +59,28 @@ function CreditPage() {
             <> Skeleton</>
           )}
         </Grid>
-        <Pagination
-          count={20}
-          defaultPage={pageNumInt}
-          variant='outlined'
-          color='primary'
-        />
+        <Grid
+          container
+          m={2}
+          justifyContent='center'
+          direction={'column'}
+          alignItems={'center'}
+        >
+          <Grid item lg={12}>
+            <Pagination
+              count={10}
+              defaultPage={1}
+              variant='outlined'
+              color='primary'
+              siblingCount={2}
+              shape='rounded'
+              page={pageNumInt}
+              hideNextButton={true}
+              hidePrevButton={true}
+              onChange={change_page}
+            />
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );

@@ -14,12 +14,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import useUserStore from '../../store/userStore';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import axios from 'axios';
 
 function DebitItem({ amount, reason, date, id, inFav }) {
   const { userName } = useUserStore((state) => ({
     userName: state.user.userName,
   }));
-
+  const deleteDebitItem = () => {
+    axios.delete(`${process.env.API}/debit/delete/${id}`, {
+      withCredentials: true,
+    });
+  };
   return (
     <Box>
       <Card>
@@ -32,7 +37,11 @@ function DebitItem({ amount, reason, date, id, inFav }) {
               <IconButton aria-label='edit' color='inherit'>
                 <EditIcon />
               </IconButton>
-              <IconButton aria-label='delete' color='inherit'>
+              <IconButton
+                aria-label='delete'
+                color='inherit'
+                onClick={deleteDebitItem}
+              >
                 <DeleteIcon />
               </IconButton>
             </Box>

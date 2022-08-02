@@ -6,17 +6,20 @@ import {
   CardContent,
   CardHeader,
   IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useUserStore from '../../store/userStore';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import axios from 'axios';
+import EditDebitModal from './EditModal';
 
 function DebitItem({ amount, reason, date, id, inFav }) {
+  const [showEditModal, setShowEditModal] = useState(false);
   const { userName } = useUserStore((state) => ({
     userName: state.user.userName,
   }));
@@ -24,6 +27,10 @@ function DebitItem({ amount, reason, date, id, inFav }) {
     axios.delete(`${process.env.API}/debit/delete/${id}`, {
       withCredentials: true,
     });
+  };
+  const editDebit = () => {
+    console.log('Editing..');
+    setShowEditModal(true);
   };
   return (
     <Box>
@@ -34,16 +41,25 @@ function DebitItem({ amount, reason, date, id, inFav }) {
           subheader={date}
           action={
             <Box>
-              <IconButton aria-label='edit' color='inherit'>
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                aria-label='delete'
-                color='inherit'
-                onClick={deleteDebitItem}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title='Edit'>
+                <IconButton
+                  aria-label='edit'
+                  color='inherit'
+                  onClick={editDebit}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title='Delete'>
+                <IconButton
+                  aria-label='delete'
+                  color='inherit'
+                  onClick={deleteDebitItem}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           }
         />
@@ -64,6 +80,10 @@ function DebitItem({ amount, reason, date, id, inFav }) {
           )}
         </CardActions>
       </Card>
+      <EditDebitModal
+        showModal={showEditModal}
+        setShowModal={setShowEditModal}
+      />
     </Box>
   );
 }

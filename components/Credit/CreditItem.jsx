@@ -6,9 +6,10 @@ import {
   CardContent,
   CardHeader,
   IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useUserStore from '../../store/userStore';
@@ -16,8 +17,10 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import userCreditStore from '../../store/usecreditFavStore';
 import axios from 'axios';
+import EditCreditModal from './EditCreditModal';
 
 function CreditItem({ amount, reason, date, id, inFav }) {
+  const [showEditModal, setShowEditModal] = useState(false);
   const { userName } = useUserStore((state) => ({
     userName: state.user.userName,
   }));
@@ -41,6 +44,9 @@ function CreditItem({ amount, reason, date, id, inFav }) {
       withCredentials: true,
     });
   };
+  const editCreditItem = () => {
+    setShowEditModal(true);
+  };
   return (
     <Box>
       <Card>
@@ -50,16 +56,24 @@ function CreditItem({ amount, reason, date, id, inFav }) {
           subheader={date}
           action={
             <Box>
-              <IconButton aria-label='edit' color='inherit'>
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                aria-label='delete'
-                color='inherit'
-                onClick={deleteCredit}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title='Edit'>
+                <IconButton
+                  aria-label='edit'
+                  color='inherit'
+                  onClick={editCreditItem}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Delete'>
+                <IconButton
+                  aria-label='delete'
+                  color='inherit'
+                  onClick={deleteCredit}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           }
         />
@@ -80,6 +94,10 @@ function CreditItem({ amount, reason, date, id, inFav }) {
           )}
         </CardActions>
       </Card>
+      <EditCreditModal
+        showModal={showEditModal}
+        setShowModal={setShowEditModal}
+      />
     </Box>
   );
 }

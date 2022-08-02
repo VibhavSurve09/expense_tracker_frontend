@@ -15,6 +15,7 @@ import useUserStore from '../../store/userStore';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import userCreditStore from '../../store/usecreditFavStore';
+import axios from 'axios';
 
 function CreditItem({ amount, reason, date, id, inFav }) {
   const { userName } = useUserStore((state) => ({
@@ -35,6 +36,11 @@ function CreditItem({ amount, reason, date, id, inFav }) {
     };
     addCreditToFav(cred);
   };
+  const deleteCredit = () => {
+    axios.delete(`${process.env.API}/credit/delete/${id}`, {
+      withCredentials: true,
+    });
+  };
   return (
     <Box>
       <Card>
@@ -47,7 +53,11 @@ function CreditItem({ amount, reason, date, id, inFav }) {
               <IconButton aria-label='edit' color='inherit'>
                 <EditIcon />
               </IconButton>
-              <IconButton aria-label='delete' color='inherit'>
+              <IconButton
+                aria-label='delete'
+                color='inherit'
+                onClick={deleteCredit}
+              >
                 <DeleteIcon />
               </IconButton>
             </Box>

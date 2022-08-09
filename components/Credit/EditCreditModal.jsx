@@ -19,9 +19,15 @@ const style = {
   p: 4,
 };
 
-export default function EditCreditModal({ showModal, setShowModal }) {
+export default function EditCreditModal({
+  showModal,
+  setShowModal,
+  amount,
+  reason,
+}) {
   const handleClose = () => setShowModal(false);
-
+  const [creditAmount, setCreditAmount] = React.useState(amount);
+  const [creditReason, setCreditReason] = React.useState(reason);
   return (
     <div>
       <Modal
@@ -37,7 +43,12 @@ export default function EditCreditModal({ showModal, setShowModal }) {
       >
         <Fade in={showModal}>
           <Box sx={style}>
-            <EditForm />
+            <EditForm
+              amount={creditAmount}
+              setAmount={setCreditAmount}
+              reason={creditReason}
+              setReason={setCreditReason}
+            />
           </Box>
         </Fade>
       </Modal>

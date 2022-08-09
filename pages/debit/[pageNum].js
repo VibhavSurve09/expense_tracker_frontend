@@ -42,7 +42,7 @@ function DebitPage() {
                 return (
                   <Grid item md={4} xs={12} lg={6} key={indx}>
                     <DebitItem
-                      amount={c.credit_amount}
+                      amount={c.debit_amount}
                       reason={c.reason}
                       date={c.transaction_date}
                       id={c.id}

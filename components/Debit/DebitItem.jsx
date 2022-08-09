@@ -29,7 +29,6 @@ function DebitItem({ amount, reason, date, id, inFav }) {
     });
   };
   const editDebit = () => {
-    console.log('Editing..');
     setShowEditModal(true);
   };
   return (
@@ -83,6 +82,8 @@ function DebitItem({ amount, reason, date, id, inFav }) {
       <EditDebitModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
+        amount={amount}
+        reason={reason}
       />
     </Box>
   );

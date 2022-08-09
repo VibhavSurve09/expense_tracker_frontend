@@ -97,6 +97,8 @@ function CreditItem({ amount, reason, date, id, inFav }) {
       <EditCreditModal
         showModal={showEditModal}
         setShowModal={setShowEditModal}
+        amount={amount}
+        reason={reason}
       />
     </Box>
   );

@@ -19,8 +19,15 @@ const style = {
   p: 4,
 };
 
-export default function EditDebitModal({ showModal, setShowModal }) {
+export default function EditDebitModal({
+  showModal,
+  setShowModal,
+  reason,
+  amount,
+}) {
   const handleClose = () => setShowModal(false);
+  const [debitAmount, setDebitAmount] = React.useState(amount);
+  const [debitReason, setDebitReason] = React.useState(reason);
 
   return (
     <div>
@@ -37,7 +44,12 @@ export default function EditDebitModal({ showModal, setShowModal }) {
       >
         <Fade in={showModal}>
           <Box sx={style}>
-            <EditForm />
+            <EditForm
+              amount={debitAmount}
+              setAmount={setDebitAmount}
+              reason={debitReason}
+              setReason={setDebitReason}
+            />
           </Box>
         </Fade>
       </Modal>

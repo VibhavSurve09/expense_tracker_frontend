@@ -24,6 +24,8 @@ export default function EditDebitModal({
   setShowModal,
   reason,
   amount,
+  isCredit,
+  id,
 }) {
   const handleClose = () => setShowModal(false);
   const [debitAmount, setDebitAmount] = React.useState(amount);
@@ -49,6 +51,8 @@ export default function EditDebitModal({
               setAmount={setDebitAmount}
               reason={debitReason}
               setReason={setDebitReason}
+              isCredit={isCredit}
+              id={id}
             />
           </Box>
         </Fade>

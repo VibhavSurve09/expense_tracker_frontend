@@ -84,6 +84,8 @@ function DebitItem({ amount, reason, date, id, inFav }) {
         setShowModal={setShowEditModal}
         amount={amount}
         reason={reason}
+        isCredit={false}
+        id={id}
       />
     </Box>
   );

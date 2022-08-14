@@ -24,6 +24,7 @@ export default function EditCreditModal({
   setShowModal,
   amount,
   reason,
+  isCredit,
 }) {
   const handleClose = () => setShowModal(false);
   const [creditAmount, setCreditAmount] = React.useState(amount);
@@ -48,6 +49,7 @@ export default function EditCreditModal({
               setAmount={setCreditAmount}
               reason={creditReason}
               setReason={setCreditReason}
+              isCredit={isCredit}
             />
           </Box>
         </Fade>

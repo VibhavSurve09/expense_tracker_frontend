@@ -99,6 +99,7 @@ function CreditItem({ amount, reason, date, id, inFav }) {
         setShowModal={setShowEditModal}
         amount={amount}
         reason={reason}
+        isCredit={true}
       />
     </Box>
   );

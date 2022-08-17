@@ -22,6 +22,7 @@ const style = {
 export default function EditCreditModal({
   showModal,
   setShowModal,
+  id,
   amount,
   reason,
   isCredit,
@@ -50,6 +51,7 @@ export default function EditCreditModal({
               reason={creditReason}
               setReason={setCreditReason}
               isCredit={isCredit}
+              id={id}
             />
           </Box>
         </Fade>

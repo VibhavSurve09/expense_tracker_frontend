@@ -100,6 +100,7 @@ function CreditItem({ amount, reason, date, id, inFav }) {
         amount={amount}
         reason={reason}
         isCredit={true}
+        id={id}
       />
     </Box>
   );

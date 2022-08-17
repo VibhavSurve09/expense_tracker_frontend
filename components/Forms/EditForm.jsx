@@ -5,13 +5,24 @@ import React from 'react';
 function EditForm({ amount, setAmount, reason, setReason, isCredit, id }) {
   const update = async () => {
     if (isCredit) {
-      console.log('Not yet implemented');
+      console.log('Credit', id, amount, reason);
+      let res = await axios.post(
+        `${process.env.API}/credit/update`,
+        {
+          id,
+          credit_amount: parseInt(amount),
+          message: reason,
+        },
+        {
+          withCredentials: true,
+        }
+      );
     } else {
       let res = await axios.post(
         `${process.env.API}/debit/update`,
         {
           id,
-          debit_amount: amount,
+          debit_amount: parseInt(amount),
           message: reason,
         },
         {
